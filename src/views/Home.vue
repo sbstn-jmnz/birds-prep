@@ -13,6 +13,7 @@
               class="white--text align-end"
               max-height="300px"
               :src="bird.images.main"
+              @click="displayDialog(bird)"
             >
               <v-card-title>{{ bird.uid }}</v-card-title>
             </v-img>
@@ -38,18 +39,36 @@
         </v-col>
       </v-row>
     </v-container>
+    <bird-modal
+      :dialog="dialog"
+      :bird="currentBird"
+      @close-dialog="dialog = false"
+    ></bird-modal>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import BirdModal from "@/components/BirdModal";
 export default {
   name: "Home",
+  data() {
+    return {
+      dialog: false,
+    };
+  },
+  components: {
+    BirdModal,
+  },
   computed: {
-    ...mapState(["birds"]),
+    ...mapState(["birds", "currentBird"]),
   },
   methods: {
-    ...mapActions(["setBirds"]),
+    ...mapActions(["setBirds", "setCurrentBird"]),
+    displayDialog(bird) {
+      this.setCurrentBird(bird._links.self);
+      this.dialog = true;
+    },
   },
   created() {
     this.setBirds();
