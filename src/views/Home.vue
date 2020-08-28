@@ -2,8 +2,13 @@
   <div class="home pt-5">
     <v-container>
       <v-row>
+        <v-text-field label="Buscar" v-model="search">
+          <v-icon slot="prepend" color="red">mdi-search</v-icon>
+        </v-text-field>
+      </v-row>
+      <v-row>
         <v-col
-          v-for="bird in birds"
+          v-for="bird in computedBirds"
           :key="bird.uid"
           cols="12"
           class="col-lg-4 col-md-6 col-sm-12"
@@ -55,6 +60,7 @@ export default {
   data() {
     return {
       dialog: false,
+      search: "",
     };
   },
   components: {
@@ -62,6 +68,15 @@ export default {
   },
   computed: {
     ...mapState(["birds", "currentBird"]),
+    computedBirds() {
+      return this.birds.filter((bird) => {
+        return (
+          bird.name.english.toLowerCase().includes(this.search.toLowerCase()) ||
+          bird.name.spanish.toLowerCase().includes(this.search.toLowerCase()) ||
+          bird.name.latin.toLowerCase().includes(this.search.toLowerCase())
+        );
+      });
+    },
   },
   methods: {
     ...mapActions(["setBirds", "setCurrentBird"]),
