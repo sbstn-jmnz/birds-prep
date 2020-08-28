@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog v-model="dialog" width="500">
-      <v-card>
+      <v-card v-if="bird.images">
         <v-card-title class="headline grey lighten-2">
           {{ bird.uid }}
         </v-card-title>

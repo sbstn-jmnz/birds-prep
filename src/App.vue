@@ -9,14 +9,19 @@
     <v-main>
       <router-view></router-view>
     </v-main>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "App",
-  data: () => ({
-    //
-  }),
+  data: () => ({}),
+  computed: {
+    ...mapState(["overlay"]),
+  },
 };
 </script>
